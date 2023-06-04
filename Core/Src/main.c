@@ -61,7 +61,9 @@ int test;
 int stoptest;
 uint8_t RecieveData;
 char Data[8];
-
+int lastTest;
+int lastRun;
+int lastPick;
 uint8_t Result;
 //int flag;
 //Joystick//
@@ -142,10 +144,11 @@ int main(void)
 	  if (HAL_GetTick() >= timestamp){
 	  	timestamp = HAL_GetTick() + 200;
 	  	registerFrame[00].U16 = 22881;
-//		decimalToBinary(registerFrame[2].U16);
-	  	I2C_TO_BASESYSTEM(registerFrame[2].U16,&hi2c1);
+//		HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
+//	  decimalToBinary(registerFrame[2].U16,Data);
+//	  	Transmit_To_Basesystem(&registerFrame[2].U16,&hi2c1);
 	  }
-
+	  I2C_TO_BASESYSTEM(&registerFrame[2].U16,&hi2c1);
 //	  if(Data[0] == '1' && lastTest == 0)
 //	  {
 //		  ENDEFF_TEST_MODE(&hi2c1);
@@ -213,38 +216,38 @@ int main(void)
 //		  decimalToBinary(RecieveData,Data);
 //		  flag = 1;
 	  }
-//	  if(test == 1)
-//	  {
-//		  ENDEFF_TEST_MODE(&hi2c1);
-//		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
+	  if(test == 1)
+	  {
+		  ENDEFF_TEST_MODE(&hi2c1);
+		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
 //		  decimalToBinary(RecieveData,Data);
-//		  test = 0;
+		  test = 0;
 //		  flag = 1;
-//	  }
-//	  else if(stoptest == 1)
-//	  {
-//		  ENDEFF_TEST_MODE_QUIT(&hi2c1);
-//		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
+	  }
+	  else if(stoptest == 1)
+	  {
+		  ENDEFF_TEST_MODE_QUIT(&hi2c1);
+		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
 //		  decimalToBinary(RecieveData,Data);
-//		  stoptest = 0;
+		  stoptest = 0;
 //		  flag = 1;
-//	  }
-//	  else if(start == 1)
-//	  {
-//		  ENDEFF_GRIPPER_RUNMODE(&hi2c1);
-//		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
+	  }
+	  else if(start == 1)
+	  {
+		  ENDEFF_GRIPPER_RUNMODE(&hi2c1);
+		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
 //		  decimalToBinary(RecieveData,Data);
-//		  start = 0;
+		  start = 0;
 //		  flag = 1;
-//	  }
-//	  else if(pick == 1)
-//	  {
-//		  ENDEFF_GRIPPER_PICK(&hi2c1);
-//		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
+	  }
+	  else if(pick == 1)
+	  {
+		  ENDEFF_GRIPPER_PICK(&hi2c1);
+		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
 //		  decimalToBinary(RecieveData,Data);
-//		  pick = 0;
+		  pick = 0;
 //		  flag = 1;
-//	  }
+	  }
 	  else if(place == 1)
 	  {
 		  ENDEFF_GRIPPER_PLACE(&hi2c1);
@@ -253,14 +256,14 @@ int main(void)
 		  place = 0;
 //		  flag = 1;
 	  }
-//	  else if(stop == 1)
-//	  {
-//		  ENDEFF_GRIPPER_IDLE(&hi2c1);
-//		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
+	  else if(stop == 1)
+	  {
+		  ENDEFF_GRIPPER_IDLE(&hi2c1);
+		  HAL_I2C_Master_Receive(&hi2c1, 0x15<<1, &RecieveData, 1, HAL_MAX_DELAY);
 //		  decimalToBinary(RecieveData,Data);
-//		  stop = 0;
+		  stop = 0;
 //		  flag = 1;
-//	  }
+	  }
 
     /* USER CODE END WHILE */
 
