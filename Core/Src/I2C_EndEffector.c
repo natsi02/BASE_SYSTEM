@@ -94,21 +94,8 @@ void ENDEFF_GRIPPER_PLACE(I2C_HandleTypeDef *hi2c) {
 		return;
 	}
 }
-//void decimalToBinary(uint8_t decimal, char *binary) {
-//	int index = 0;
-//	for (int i = 0; i < sizeof(binary); i++) {
-//		binary[i] = 0;
-//	}
-//	if (decimal == 0) {
-//		binary[index++] = '0';
-//	} else {
-//		while (decimal > 0) {
-//			binary[index++] = (decimal & 1) ? '1' : '0';
-//			decimal >>= 1;
-//		}
-//	}
-//	binary[index] = '0'; // Add null terminator to indicate the end of the string
-//}
+
+
 void I2C_TO_BASESYSTEM(uint16_t *DataFrame, I2C_HandleTypeDef *hi2c) {
 	static int picked;
 	static enum {
@@ -203,48 +190,3 @@ void I2C_TO_BASESYSTEM(uint16_t *DataFrame, I2C_HandleTypeDef *hi2c) {
 		break;
 	}
 }
-//void Transmit_To_Basesystem(uint16_t* DataFrame,I2C_HandleTypeDef *hi2c)
-//{
-//	static int lastTest;
-//	static int lastRun;
-//	static int lastPick;
-//	if ((*DataFrame&0b0001) == 1 && lastTest == 0) {
-//		ENDEFF_TEST_MODE(hi2c);
-//		lastTest = 1;
-//	} else if ((*DataFrame&0b0001) == 0 && lastTest == 1) {
-//		ENDEFF_TEST_MODE_QUIT(hi2c);
-//		lastTest = 0;
-//	} else if ((*DataFrame&0b0010) == 0b10 && lastRun == 0) {
-//		ENDEFF_GRIPPER_RUNMODE(hi2c);
-//		lastRun = 1;
-//	} else if ((*DataFrame&0b0010) == 0 && lastRun == 1) {
-//		ENDEFF_GRIPPER_IDLE(hi2c);
-//		lastRun = 0;
-//	} else if ((*DataFrame&0b0100) == 0b100 && (*DataFrame&0b0010) == 0b10 && lastPick == 0) {
-//		ENDEFF_GRIPPER_PICK(hi2c);
-//		*DataFrame = 0b0010;
-//		lastPick = 1;
-//	} else if ((*DataFrame&0b1000) == 0b1000 && (*DataFrame&0b0010) == 0b10 && lastPick == 1) {
-//		ENDEFF_GRIPPER_PLACE(hi2c);
-//		*DataFrame = 0b0010;
-//		lastPick = 0;
-//	}
-//}
-//void TransmitToBase(char* Data,uint8_t result)
-//{
-//	  char NewData[8];
-//	  result = 0;
-//	  for(int i = 0; i < 4;i++)
-//	  {
-//		  if(i == 0) NewData[2] = Data[i];
-//		  else if(i == 1) NewData[3] = Data[i];
-//		  else if(i == 2) NewData[1] = Data[i];
-//		  else if(i == 3) NewData[0] = Data[i];
-//	  }
-//
-//	  for(int j = 0; j<sizeof(NewData);j++)
-//	  {
-//		  if(NewData[j] == '\0') j = sizeof(NewData);
-//		  else result += ((int)NewData[j]-'0')*pow(2,j);
-//	  }
-//}
