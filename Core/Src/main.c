@@ -31,7 +31,7 @@
 #include "string.h"
 #include "math.h"
 #include "Joystick.h"
-#define BUFFER_SIZE 4
+#define BUFFER_SIZE 6
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
