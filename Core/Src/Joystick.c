@@ -28,7 +28,7 @@ void UARTInterruptConfig() {
 void Joystick_Received(int *receivedByte) {
 	static int count;
 	static enum {
-		START, COUNT, END
+		START, COUNT
 	} Joy_State = START;
 	switch (Joy_State) {
 	case (START):
@@ -50,16 +50,14 @@ void Joystick_Received(int *receivedByte) {
 			count = 0;
 		} else if (RxBuffer[0] == 71 && count == 4) {
 			count = 0;
-			Joy_State = END;
+			Joy_State = START;
+			// All data received
 		} else {
 			receivedByte[count] = RxBuffer[0];
-			if(receivedByte[count] > UINT8_MAX/2) receivedByte[count] -= UINT8_MAX+1;
+			if (receivedByte[count] > UINT8_MAX / 2)
+				receivedByte[count] -= UINT8_MAX + 1;
 			count++;
 		}
-		break;
-
-	case (END):
-		Joy_State = START;
 		break;
 	}
 	HAL_UART_Receive_IT(&huart1, RxBuffer, 1);
