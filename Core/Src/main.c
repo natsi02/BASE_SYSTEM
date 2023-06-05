@@ -30,7 +30,8 @@
 #include "I2C_EndEffector.h"
 #include "string.h"
 #include "math.h"
-#define BUFFER_SIZE 5
+#include "Joystick.h"
+#define BUFFER_SIZE 4
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -67,7 +68,6 @@ int lastPick;
 uint8_t Result;
 //int flag;
 //Joystick//
-uint8_t RxBuffer[BUFFER_SIZE];
 int receivedByte[BUFFER_SIZE];
 int SetTrayPos;
 
@@ -318,32 +318,8 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void UARTInterruptConfig(){
-	HAL_UART_Receive_IT(&huart1, RxBuffer, sizeof(RxBuffer));
-}
-
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-	if(huart == &huart1){
-		for(int i = 0; i< BUFFER_SIZE;i++)
-		{
-			receivedByte[i] = RxBuffer[i];
-		}
-		PosData.position_x = (RxBuffer[1] << 8) | RxBuffer[0];
-		PosData.position_y = (RxBuffer[3] << 8) | RxBuffer[2];
-		if(PosData.position_x >= UINT16_MAX/2) PosData.position_x -= UINT16_MAX + 1;
-		else if(PosData.position_y >= UINT16_MAX/2) PosData.position_y -= UINT16_MAX + 1;
-		SetTrayPos = RxBuffer[4];
-		static int point;
-		if(SetTrayPos == 1)
-		{
-			PosData.tray_x[point] = PosData.position_x;
-			PosData.tray_y[point] = PosData.position_y;
-			point++;
-			if(point == 3) point = 0;
-			SetTrayPos = 0;
-		}
-		HAL_UART_Receive_IT(&huart1, RxBuffer, sizeof(RxBuffer));
-	}
+	Joystick_Received(&huart1,&receivedByte);
 }
 /* USER CODE END 4 */
 

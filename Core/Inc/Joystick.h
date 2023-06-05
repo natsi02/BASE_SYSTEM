@@ -7,7 +7,9 @@
 
 #ifndef INC_JOYSTICK_H_
 #define INC_JOYSTICK_H_
+#include "stm32f4xx_hal.h"
 
-
+void UARTInterruptConfig();
+void Joystick_Received(UART_HandleTypeDef *huart,int* receivedByte);
 
 #endif /* INC_JOYSTICK_H_ */
