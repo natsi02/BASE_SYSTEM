@@ -31,7 +31,7 @@
 #include "string.h"
 #include "math.h"
 #include "Joystick.h"
-#define BUFFER_SIZE 6
+#define BUFFER_SIZE 4
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -319,7 +319,9 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
-	Joystick_Received(&huart1,&receivedByte);
+	if(huart == &huart1){
+		Joystick_Received(&receivedByte);
+	}
 }
 /* USER CODE END 4 */
 

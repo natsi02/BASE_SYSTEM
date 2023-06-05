@@ -10,6 +10,6 @@
 #include "stm32f4xx_hal.h"
 
 void UARTInterruptConfig();
-void Joystick_Received(UART_HandleTypeDef *huart,int* receivedByte);
+void Joystick_Received(int* receivedByte);
 
 #endif /* INC_JOYSTICK_H_ */
