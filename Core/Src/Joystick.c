@@ -13,29 +13,31 @@ void UARTInterruptConfig() {
 	HAL_UART_Receive_IT(&huart1, RxBuffer, 1);
 }
 
-void Joystick_Transmit(int32_t *Pos_x,uint16_t *Pos_y)
+void Joystick_Transmit(int32_t Pos_x,uint16_t Pos_y,uint8_t PicknPlace)
 {
 	static int LastPos_x;
 	static int LastPos_y;
+	static int LastState;
 	static uint16_t Position_x;
 	static uint16_t Position_y;
-	static uint8_t data[4];
+	static uint8_t data[5];
 
-	Position_x = *Pos_x;
-	Position_y = *Pos_y;
+	Position_x = Pos_x;
+	Position_y = Pos_y;
 
 	data[0] = Position_x >> 8;
 	data[1] = Position_x & 0xFF;
 	data[2] = Position_y >> 8;
 	data[3] = Position_y & 0xFF;
 
-	if(Position_x != LastPos_x || Position_y != LastPos_y)
+	if(Position_x != LastPos_x || Position_y != LastPos_y || PicknPlace != LastState)
 	{
 		HAL_UART_Transmit_DMA(&huart1, data, sizeof(data));
 	}
 
 	LastPos_x = Position_x;
 	LastPos_y = Position_y;
+	LastState = PicknPlace;
 }
 
 void Joystick_Received(int *receivedByte) {

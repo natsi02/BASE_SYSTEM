@@ -11,6 +11,6 @@
 
 void UARTInterruptConfig();
 void Joystick_Received(int* receivedByte);
-void Joystick_Transmit(int32_t *Position_x,uint16_t *Position_y);
+void Joystick_Transmit(int32_t Position_x,uint16_t Position_y,uint8_t PicknPlace);
 
 #endif /* INC_JOYSTICK_H_ */
